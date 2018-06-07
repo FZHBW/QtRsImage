@@ -26,13 +26,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    rsimage.cpp \
-    dialog.cpp
+    rsimage.cpp
 
 HEADERS += \
         mainwindow.h \
-    rsimage.h \
-    dialog.h
+    rsimage.h
 
 FORMS += \
         mainwindow.ui \

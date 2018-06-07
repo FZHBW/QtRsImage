@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include"rsimage.h"
-#include"dialog.h"
+//#include"dialog.h"
 #include <QMainWindow>
 
 namespace Ui {
@@ -24,7 +24,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     RsImage img;
-    Dialog *dia;
+    //Dialog *dia;
 
 };
 

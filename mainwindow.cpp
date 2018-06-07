@@ -3,7 +3,8 @@
 #include "QFileDialog"
 #include <QPainter>
 #include <QImage>
-#include"dialog.h"
+#include<QTableWidget>
+//#include"dialog.h"
 //#include"dialogs.h"
 
 
@@ -39,16 +40,22 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
     QTableWidget *qtw = new QTableWidget;
+    QString number;
+
     qtw->setEditTriggers(QAbstractItemView::NoEditTriggers);
     qtw->setShowGrid(true);
 
     qtw->setRowCount(img.get_Bands());
     qtw->setColumnCount(2);
-    qtw->setHorizontalHeaderLabels("HStrList");
+    //qtw->setHorizontalHeaderLabels("HStrList");
+    qtw->verticalHeader()->setVisible(false);
+    qtw->horizontalHeader()->setVisible(false);
 
     for(int i = 0; i < img.get_Bands(); i++)
     {
-        qtw->setItem(i,0,new QTableWidgetItem("band"));
+        number = "band"+QString::number(i+1, 10);
+
+        qtw->setItem(i,0,new QTableWidgetItem(number));
     }
     qtw->show();
 
