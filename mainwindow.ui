@@ -6,68 +6,39 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>876</width>
-    <height>681</height>
+    <width>908</width>
+    <height>702</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>130</y>
-      <width>93</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>171</x>
-      <y>34</y>
-      <width>661</width>
-      <height>571</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>50</y>
-      <width>93</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>w</string>
-    </property>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>876</width>
+     <width>908</width>
      <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuwenjian">
     <property name="title">
-     <string>wenjian</string>
+     <string>File(F)</string>
     </property>
     <addaction name="actionqoiwe"/>
+    <addaction name="actionInfo_I"/>
    </widget>
    <addaction name="menuwenjian"/>
   </widget>
@@ -82,7 +53,12 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionqoiwe">
    <property name="text">
-    <string>qoiwe</string>
+    <string>Open(O)</string>
+   </property>
+  </action>
+  <action name="actionInfo_I">
+   <property name="text">
+    <string>Info(I)</string>
    </property>
   </action>
  </widget>

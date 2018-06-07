@@ -5,7 +5,7 @@
 #include<sstream>
 #include<QString>
 #include<QMainWindow>
-//#include <dialogs.h>
+#include<QTableWidget>
 #include <QFileDialog>
 #include <QTextCodec>
 

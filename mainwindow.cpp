@@ -18,10 +18,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    //delete qtw;
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_actionqoiwe_triggered()
 {
     DataType* pDataBuffer;
     img.qOpen(QFileDialog::getOpenFileName(this, tr("Open File") ,"", "img files (*.img)"));
@@ -35,25 +36,21 @@ void MainWindow::on_pushButton_clicked()
     QPixmap pixmap = QPixmap::fromImage(Qimg);
     QPixmap fitpixmap = pixmap.scaled(with, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     ui->label->setPixmap(fitpixmap);
-
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_actionInfo_I_triggered()
 {
-    QTableWidget *qtw = new QTableWidget();
+    qtw = new QTableWidget();
     int b = img.get_Bands();
     double a[b]{0};
     double v[b]{0};
     int M[b]{0};
     int m[b]{0};
+    img.cacuAverage(a);
+    img.cacuVariance(v,a);
+    img.findMm(M,m);
 
-    for(int i = 0; i < b; i++)
-    {
-        img.cacuAverage(a);
-
-    }
-
-    qtw-> setMinimumSize(627, 285);
+    qtw-> setMinimumSize(627, 270);
     qtw-> setMaximumSize(627, 100000);
 
     qtw->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -73,8 +70,13 @@ void MainWindow::on_pushButton_2_clicked()
     {
         qtw->setItem(i,0,new QTableWidgetItem("Band"+QString::number(i, 10)));
         qtw->setItem(i,1,new QTableWidgetItem(QString::number( a[i-1],'g', 10)));
+        qtw->setItem(i,2,new QTableWidgetItem(QString::number( v[i-1],'g', 10)));
+        qtw->setItem(i,3,new QTableWidgetItem(QString::number( M[i-1],'g', 10)));
+        qtw->setItem(i,4,new QTableWidgetItem(QString::number( m[i-1],'g', 10)));
     }
 
+
     qtw->show();
+
 
 }
