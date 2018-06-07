@@ -3,7 +3,7 @@
 
 RsImage::RsImage()
 {
-
+    m_pppData = NULL;
 }
 
 bool	RsImage::open(const char* lpstrPath)
@@ -214,7 +214,6 @@ bool    RsImage::qOpen(QString fileName)
     open(filepath.c_str());
 }
 
-
 bool    RsImage::qimMaker(DataType *pt=NULL)
 {
      int i = 0, k = 0;
@@ -234,5 +233,23 @@ bool    RsImage::qimMaker(DataType *pt=NULL)
     else
     {
         return false;
+    }
+}
+
+void	RsImage::cacuAverage(double *p)
+{
+    double sum = 0;
+    double result = 0;
+    for(int i = 0; i<m_nBands;i++)
+    {
+        for (int j = 0; j < m_nLines; j++)
+        {
+            for (int k = 0; k < m_nSamples; k++)
+            {
+                sum += m_pppData[i][j][k];
+                p[i] = static_cast<double>(sum) / static_cast<double>(m_nLines*m_nSamples);
+            }
+        }
+        sum =0;
     }
 }

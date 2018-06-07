@@ -39,24 +39,29 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    QTableWidget *qtw = new QTableWidget;
-    QString number;
+    QTableWidget *qtw = new QTableWidget();
+    int b = img.get_Bands();
+    double a[img.get_Bands()]{0};
+    for(int i = 0; i < b; i++)
+    {
+        img.cacuAverage(a);
+    }
 
+    qtw->sizePolicy();
     qtw->setEditTriggers(QAbstractItemView::NoEditTriggers);
     qtw->setShowGrid(true);
 
-    qtw->setRowCount(img.get_Bands());
-    qtw->setColumnCount(2);
-    //qtw->setHorizontalHeaderLabels("HStrList");
+    qtw->setRowCount(img.get_Bands()+7);
+    qtw->setColumnCount(4);
     qtw->verticalHeader()->setVisible(false);
     qtw->horizontalHeader()->setVisible(false);
 
-    for(int i = 0; i < img.get_Bands(); i++)
+    for(int i = 0; i < b; i++)
     {
-        number = "band"+QString::number(i+1, 10);
-
-        qtw->setItem(i,0,new QTableWidgetItem(number));
+        qtw->setItem(i,0,new QTableWidgetItem("Band"+QString::number(i+1, 10)));
+        qtw->setItem(i,1,new QTableWidgetItem(QString::number( a[i],'g', 10)));
     }
+
     qtw->show();
 
 }
