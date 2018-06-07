@@ -3,6 +3,7 @@
 #include "QFileDialog"
 #include <QPainter>
 #include <QImage>
+#include <vector>
 #include<QTableWidget>
 //#include"dialog.h"
 //#include"dialogs.h"
@@ -41,25 +42,37 @@ void MainWindow::on_pushButton_2_clicked()
 {
     QTableWidget *qtw = new QTableWidget();
     int b = img.get_Bands();
-    double a[img.get_Bands()]{0};
+    double a[b]{0};
+    double v[b]{0};
+    int M[b]{0};
+    int m[b]{0};
+
     for(int i = 0; i < b; i++)
     {
         img.cacuAverage(a);
+
     }
 
-    qtw->sizePolicy();
+    qtw-> setMinimumSize(627, 285);
+    qtw-> setMaximumSize(627, 100000);
+
     qtw->setEditTriggers(QAbstractItemView::NoEditTriggers);
     qtw->setShowGrid(true);
 
-    qtw->setRowCount(img.get_Bands()+7);
-    qtw->setColumnCount(4);
+    qtw->setRowCount(img.get_Bands()+1);
+    qtw->setColumnCount(5);
     qtw->verticalHeader()->setVisible(false);
     qtw->horizontalHeader()->setVisible(false);
 
-    for(int i = 0; i < b; i++)
+    qtw->setItem(0,1,new QTableWidgetItem("Averange"));
+    qtw->setItem(0,2,new QTableWidgetItem("Variance"));
+    qtw->setItem(0,3,new QTableWidgetItem("Maximum"));
+    qtw->setItem(0,4,new QTableWidgetItem("Minimum"));
+
+    for(int i = 1; i <= b; i++)
     {
-        qtw->setItem(i,0,new QTableWidgetItem("Band"+QString::number(i+1, 10)));
-        qtw->setItem(i,1,new QTableWidgetItem(QString::number( a[i],'g', 10)));
+        qtw->setItem(i,0,new QTableWidgetItem("Band"+QString::number(i, 10)));
+        qtw->setItem(i,1,new QTableWidgetItem(QString::number( a[i-1],'g', 10)));
     }
 
     qtw->show();

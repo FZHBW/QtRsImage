@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>684</height>
+    <width>876</width>
+    <height>681</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,7 +32,7 @@
      <rect>
       <x>171</x>
       <y>34</y>
-      <width>601</width>
+      <width>661</width>
       <height>571</height>
      </rect>
     </property>
@@ -59,10 +59,17 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>876</width>
      <height>26</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuwenjian">
+    <property name="title">
+     <string>wenjian</string>
+    </property>
+    <addaction name="actionqoiwe"/>
+   </widget>
+   <addaction name="menuwenjian"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -73,6 +80,11 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionqoiwe">
+   <property name="text">
+    <string>qoiwe</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

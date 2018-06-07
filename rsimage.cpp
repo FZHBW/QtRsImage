@@ -6,7 +6,7 @@ RsImage::RsImage()
     m_pppData = NULL;
 }
 
-bool	RsImage::open(const char* lpstrPath)
+bool RsImage::open(const char* lpstrPath)
 {
     //lpstrPath = filepath;
     if ("" == lpstrPath)
@@ -43,7 +43,7 @@ bool	RsImage::open(const char* lpstrPath)
     return true;
 }
 
-bool	RsImage::ReadMetaData(const char* lpstrMetaFilePath)//读取准备信息
+bool RsImage::ReadMetaData(const char* lpstrMetaFilePath)//读取准备信息
 {
     ifstream    ifs;
     string      strLine;
@@ -115,7 +115,7 @@ bool	RsImage::ReadMetaData(const char* lpstrMetaFilePath)//读取准备信息
     return true;
 }
 
-bool	RsImage::ReadImgData(const char* lpstrImgFilePath)
+bool RsImage::ReadImgData(const char* lpstrImgFilePath)
 {
     bool        bFlag = true;
     int         i, j;
@@ -179,7 +179,7 @@ bool	RsImage::ReadImgData(const char* lpstrImgFilePath)
     return bFlag;
 }
 
-bool	RsImage::InitBuffer(void)
+bool RsImage::InitBuffer(void)
 {
     int     i, j;
 
@@ -206,7 +206,7 @@ bool	RsImage::InitBuffer(void)
     return true;
 }
 
-bool    RsImage::qOpen(QString fileName)
+bool RsImage::qOpen(QString fileName)
 {
     string filepath;
 
@@ -214,7 +214,7 @@ bool    RsImage::qOpen(QString fileName)
     open(filepath.c_str());
 }
 
-bool    RsImage::qimMaker(DataType *pt=NULL)
+bool RsImage::qimMaker(DataType *pt=NULL)
 {
      int i = 0, k = 0;
     for(int j = 0; j < m_nLines; j++)
@@ -236,7 +236,7 @@ bool    RsImage::qimMaker(DataType *pt=NULL)
     }
 }
 
-void	RsImage::cacuAverage(double *p)
+void RsImage::cacuAverage(double *p)
 {
     double sum = 0;
     double result = 0;
@@ -253,3 +253,45 @@ void	RsImage::cacuAverage(double *p)
         sum =0;
     }
 }
+
+void RsImage::cacuVariance(double *pV, double *pA)
+{
+    double sum = 0;
+        double result = 0;
+        for(int i = 0; i < m_nBands; i++)
+        {
+            for (int j = 0; j < m_nLines; j++)
+            {
+                for (int k = 0; k < m_nSamples; k++)
+                {
+                    pV[i] += pow((static_cast<double>(m_pppData[i][j][k]) - pA[i]), 2)
+                            / static_cast<double>(m_nLines*m_nSamples);
+                }
+            }//计算方差是直接调用各波段的平均数数据更快速地解决问题
+        }
+}
+
+void RsImage::findMm(int *pM, int *pm)
+{
+    for (int j = 0; j < m_nBands; j++)
+        {
+            for (int i = 0; i < m_nLines; i++)//找最大
+            {
+                for (int f = 0; f < m_nSamples; f++)
+                {
+                    if (pM[j] < (int)m_pppData[j][i][f])
+                        pM[j] = (int)m_pppData[j][i][f];
+                }
+            }
+            pm[j] = pM[j];
+            for (int i = 0; i < m_nLines; i++)//找最小
+            {
+                for (int f = 0; f < m_nSamples; f++)
+                {
+                    if (pm[j] >(int)m_pppData[j][i][f])
+                        pm[j] = (int)m_pppData[j][i][f];
+                }
+            }
+        }
+}
+

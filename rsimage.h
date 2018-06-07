@@ -29,7 +29,11 @@ public:
         Samples_4 = (m_nSamples*8+31)/32*4;
         return Samples_4;
     }
-    void	cacuAverage(double *p);
+    void cacuAverage(double *p);
+    void cacuVariance(double *pV, double *pA);
+    void findMm(int *pM, int *pm);
+
+
 
 
 protected:
