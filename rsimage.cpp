@@ -6,6 +6,11 @@ RsImage::RsImage()
     m_pppData = NULL;
 }
 
+RsImage::~RsImage()
+{
+    delete []m_pppData;
+}
+
 bool RsImage::open(const char* lpstrPath)
 {
     //lpstrPath = filepath;
@@ -211,7 +216,8 @@ bool RsImage::qOpen(QString fileName)
     string filepath;
 
     filepath = fileName.toStdString();
-    if(open(filepath.c_str())) return true;
+    if(open(filepath.c_str()))
+        return true;
     else
         return false;
 }

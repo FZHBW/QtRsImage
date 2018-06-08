@@ -20,6 +20,7 @@ class RsImage
 
 public:
     RsImage();
+    ~RsImage();
     bool qOpen(QString fileName);
     bool qimMaker(DataType *pt);
     int get_Bands(){return m_nBands;}

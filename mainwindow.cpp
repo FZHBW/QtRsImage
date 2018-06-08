@@ -14,25 +14,32 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->actionInfo_I->setEnabled(false);
+    ui->actionIn_I->setEnabled(false);
+    ui->actionOut_O->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
-{
-    //delete []qtw;
+{ 
     delete ui;
 }
 
 void MainWindow::on_actionqoiwe_triggered()
 {
-    openRsimg();
+    if(openRsimg())
+    {
+        ui->actionInfo_I->setEnabled(true);
+        ui->actionIn_I->setEnabled(true);
+        ui->actionOut_O->setEnabled(true);
+    }
 }
 
 void MainWindow::on_actionInfo_I_triggered()
 {
-    showimg();
+    showimginfo();
 }
 
-bool MainWindow::showimg()
+bool MainWindow::showimginfo()
 {
     if(img.get_m_pppData() == NULL)
     {
@@ -99,7 +106,7 @@ bool MainWindow::openRsimg()
     {
         pDataBuffer = new DataType [img.get_Lines()*img.get_Samples_4()*3]{0};
         img.qimMaker(pDataBuffer);
-        QImage Qimg(pDataBuffer,img.get_Samples_4(),img.get_Lines(), QImage::Format_RGB888);
+        qim = new QImage(pDataBuffer,img.get_Samples_4(),img.get_Lines(), QImage::Format_RGB888);
         scrollArea = new QScrollArea;
         ui->label->setBackgroundRole(QPalette::Base);
         ui->label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -107,7 +114,7 @@ bool MainWindow::openRsimg()
 
         int with = ui->label->width();
         int height = ui->label->height();
-        QPixmap pixmap = QPixmap::fromImage(Qimg);
+        QPixmap pixmap = QPixmap::fromImage(*qim);
         QPixmap fitpixmap = pixmap.scaled(with, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         ui->label->setPixmap(fitpixmap);
         return true;

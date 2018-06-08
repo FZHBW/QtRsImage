@@ -5,6 +5,7 @@
 #include<QTableWidget>
 #include<QScrollArea>
 #include<QMessageBox>
+#include<QImage>
 
 namespace Ui {
 class MainWindow;
@@ -33,8 +34,9 @@ protected:
     QTableWidget *qtw;
     QScrollArea *scrollArea;
     DataType* pDataBuffer;
-    bool showimg();
+    bool showimginfo();
     bool openRsimg();
+    QImage *qim = NULL;
 
 
 
