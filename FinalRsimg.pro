@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,11 +27,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    rsimage.cpp
+    rsimage.cpp \
+    dialogimg.cpp \
+    dialogimgs.cpp
 
 HEADERS += \
         mainwindow.h \
-    rsimage.h
+    rsimage.h \
+    dialogimg.h \
+    dialogimgs.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    dialogimg.ui \
+    dialogimgs.ui
+
+target.path = $$[QT_INSTALL_EXAMPLES]/charts/barchart
+INSTALLS += target
+
+

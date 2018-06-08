@@ -6,6 +6,8 @@
 #include<QScrollArea>
 #include<QMessageBox>
 #include<QImage>
+#include<dialogimgs.h>
+#include<dialogimg.h>
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +28,10 @@ private slots:
 
     void on_actionInfo_I_triggered();
 
+    void on_actionSwitch_W_triggered();
+
+    void on_actionDiaGram_D_triggered();
+
 private:
     Ui::MainWindow *ui;
 
@@ -37,6 +43,11 @@ protected:
     bool showimginfo();
     bool openRsimg();
     QImage *qim = NULL;
+    int SR = 0;
+    int SG = 1;
+    int SB = 2;
+    void Drawimg();
+
 
 
 

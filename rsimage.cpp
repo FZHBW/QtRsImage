@@ -222,16 +222,16 @@ bool RsImage::qOpen(QString fileName)
         return false;
 }
 
-bool RsImage::qimMaker(DataType *pt=NULL)
+bool RsImage::qimMaker(int r, int g, int b, DataType *pt)
 {
      int i = 0, k = 0;
     for(int j = 0; j < m_nLines; j++)
     {
         for(k = 0;  k<m_nSamples; k++)
         {
-            pt[i++]=m_pppData[0][j][k];
-            pt[i++]=m_pppData[1][j][k];
-            pt[i++]=m_pppData[2][j][k];
+            pt[i++]=m_pppData[r][j][k];
+            pt[i++]=m_pppData[g][j][k];
+            pt[i++]=m_pppData[b][j][k];
             }
        }
     if(pt != NULL)
@@ -303,3 +303,18 @@ void RsImage::findMm(int *pM, int *pm)
         }
 }
 
+void RsImage::cacudata(int *pt, int bands)
+{
+    for (int x = 0; x < 256; x++)
+        {
+            datasave[x] = 0;//初始化数组
+        }
+        for (int j = 0; j < m_nLines; j++)
+        {
+            for (int k = 0; k < m_nSamples; k++)
+            {
+                datasave[m_pppData[bands][j][k]]++;//历遍数组并统计频率
+            }
+        }
+        pt = datasave;
+}

@@ -22,7 +22,7 @@ public:
     RsImage();
     ~RsImage();
     bool qOpen(QString fileName);
-    bool qimMaker(DataType *pt);
+    bool qimMaker(int r, int g, int b, DataType *pt);
     int get_Bands(){return m_nBands;}
     int get_Lines(){return m_nLines;}
     int get_Samples(){return m_nSamples;}
@@ -34,6 +34,8 @@ public:
     void cacuAverage(double *p);
     void cacuVariance(double *pV, double *pA);
     void findMm(int *pM, int *pm);
+    void cacudata(int * pt, int bands);
+
 
 
 
@@ -49,6 +51,7 @@ protected:
     bool ReadImgData(const char* lpstrImgFilePath);
     bool InitBuffer(void);
     string m_nDataType;
+    int datasave[256];
 
 
 

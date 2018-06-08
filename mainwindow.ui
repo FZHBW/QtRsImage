@@ -39,6 +39,7 @@
     </property>
     <addaction name="actionqoiwe"/>
     <addaction name="actionInfo_I"/>
+    <addaction name="actionDiaGram_D"/>
    </widget>
    <widget class="QMenu" name="menuOperate_O">
     <property name="title">
@@ -52,6 +53,7 @@
      <addaction name="actionOut_O"/>
     </widget>
     <addaction name="menuZoom"/>
+    <addaction name="actionSwitch_W"/>
    </widget>
    <addaction name="menuwenjian"/>
    <addaction name="menuOperate_O"/>
@@ -83,6 +85,16 @@
   <action name="actionOut_O">
    <property name="text">
     <string>Out(O)</string>
+   </property>
+  </action>
+  <action name="actionSwitch_W">
+   <property name="text">
+    <string>Switch(W)</string>
+   </property>
+  </action>
+  <action name="actionDiaGram_D">
+   <property name="text">
+    <string>DiaGram(D)</string>
    </property>
   </action>
  </widget>

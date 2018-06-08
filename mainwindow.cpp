@@ -5,8 +5,7 @@
 #include <QImage>
 #include <vector>
 #include<QTableWidget>
-//#include"dialog.h"
-//#include"dialogs.h"
+
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -104,21 +103,47 @@ bool MainWindow::openRsimg()
     }
     else
     {
-        pDataBuffer = new DataType [img.get_Lines()*img.get_Samples_4()*3]{0};
-        img.qimMaker(pDataBuffer);
-        qim = new QImage(pDataBuffer,img.get_Samples_4(),img.get_Lines(), QImage::Format_RGB888);
-        scrollArea = new QScrollArea;
-        ui->label->setBackgroundRole(QPalette::Base);
-        ui->label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-        ui->label->setScaledContents(true);
-
-        int with = ui->label->width();
-        int height = ui->label->height();
-        QPixmap pixmap = QPixmap::fromImage(*qim);
-        QPixmap fitpixmap = pixmap.scaled(with, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        ui->label->setPixmap(fitpixmap);
+        Drawimg();
         return true;
     }
 
 }
 
+void MainWindow::Drawimg()
+{
+    pDataBuffer = new DataType [img.get_Lines()*img.get_Samples_4()*3]{0};
+    img.qimMaker( SR, SG, SB,pDataBuffer);
+    qim = new QImage(pDataBuffer,img.get_Samples_4(),img.get_Lines(), QImage::Format_RGB888);
+    scrollArea = new QScrollArea;
+    ui->label->setBackgroundRole(QPalette::Base);
+    ui->label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    ui->label->setScaledContents(true);
+
+    int with = ui->label->width();
+    int height = ui->label->height();
+    QPixmap pixmap = QPixmap::fromImage(*qim);
+    QPixmap fitpixmap = pixmap.scaled(with, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->label->setPixmap(fitpixmap);
+}
+
+void MainWindow::on_actionSwitch_W_triggered()
+{
+    DialogImgS *dimg = new DialogImgS(img);
+    if(dimg->exec() == QDialog::Accepted)
+    {
+        dimg->get_bandselct(SR, SG, SB);
+    }
+    Drawimg();
+
+}
+
+
+
+
+
+
+void MainWindow::on_actionDiaGram_D_triggered()
+{
+    Dialogimg dimg(img);
+    dimg.exec();
+}
