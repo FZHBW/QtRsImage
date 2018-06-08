@@ -29,6 +29,7 @@ public:
         Samples_4 = (m_nSamples*8+31)/32*4;
         return Samples_4;
     }
+    DataType*** get_m_pppData()const {return m_pppData;}
     void cacuAverage(double *p);
     void cacuVariance(double *pV, double *pA);
     void findMm(int *pM, int *pm);
@@ -42,7 +43,7 @@ protected:
     int m_nBands = 0;
     int Samples_4 = 0;
     rsdata m_eInterleave;
-    DataType*** m_pppData;
+    DataType*** m_pppData = NULL;
     bool ReadMetaData(const char* lpstrMetaFilePath);
     bool ReadImgData(const char* lpstrImgFilePath);
     bool InitBuffer(void);

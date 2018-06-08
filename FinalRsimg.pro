@@ -33,4 +33,5 @@ HEADERS += \
     rsimage.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    dialogi.ui

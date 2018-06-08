@@ -211,7 +211,9 @@ bool RsImage::qOpen(QString fileName)
     string filepath;
 
     filepath = fileName.toStdString();
-    open(filepath.c_str());
+    if(open(filepath.c_str())) return true;
+    else
+        return false;
 }
 
 bool RsImage::qimMaker(DataType *pt=NULL)

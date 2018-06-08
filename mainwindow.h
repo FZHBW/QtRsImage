@@ -1,10 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include"rsimage.h"
-//#include"dialog.h"
 #include <QMainWindow>
 #include<QTableWidget>
-//#include"dialogi.h"
+#include<QScrollArea>
+#include<QMessageBox>
 
 namespace Ui {
 class MainWindow;
@@ -16,6 +16,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    //DataType ***get_mpppData(DataType ***pt);
     ~MainWindow();
 
 private slots:
@@ -26,8 +27,17 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+protected:
     RsImage img;
     QTableWidget *qtw;
+    QScrollArea *scrollArea;
+    DataType* pDataBuffer;
+    bool showimg();
+    bool openRsimg();
+
+
+
 
 };
 
