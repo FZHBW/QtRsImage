@@ -34,7 +34,7 @@ Dialogimg::~Dialogimg()
 
 void Dialogimg::DrawDiagram0(int band)
 {
-    pimg0->cacudata(data, band);
+    pimg0->cacudata(band);
 }
 
 
@@ -46,13 +46,13 @@ void Dialogimg::on_pushButton_clicked()
         QBarSet *set = new QBarSet("Band");
         for(int i = m[b]; i <=M[b]; i++)
         {
-            *set<<data[i];
+            *set<<(pimg0->datasave[i]);
         }
     //![1]
 
     //![2]
         QBarSeries *series = new QBarSeries();
-        series->setBarWidth(0.6);
+        series->setBarWidth(0.8);
         series->append(set);
     //![2]
 

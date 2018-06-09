@@ -24,7 +24,6 @@ private:
     void DrawDiagram0(int band);
     int *M;
     int *m;
-    int *data;
     RsImage *pimg0 = NULL;
 
 };

@@ -34,7 +34,8 @@ public:
     void cacuAverage(double *p);
     void cacuVariance(double *pV, double *pA);
     void findMm(int *pM, int *pm);
-    void cacudata(int * pt, int bands);
+    void cacudata(int bands);
+    int datasave[256]{0};
 
 
 
@@ -51,7 +52,7 @@ protected:
     bool ReadImgData(const char* lpstrImgFilePath);
     bool InitBuffer(void);
     string m_nDataType;
-    int datasave[256];
+
 
 
 

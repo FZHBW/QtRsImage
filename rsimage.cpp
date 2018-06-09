@@ -303,12 +303,8 @@ void RsImage::findMm(int *pM, int *pm)
         }
 }
 
-void RsImage::cacudata(int *pt, int bands)
+void RsImage::cacudata(int bands)
 {
-    for (int x = 0; x < 256; x++)
-        {
-            datasave[x] = 0;//初始化数组
-        }
         for (int j = 0; j < m_nLines; j++)
         {
             for (int k = 0; k < m_nSamples; k++)
@@ -316,5 +312,4 @@ void RsImage::cacudata(int *pt, int bands)
                 datasave[m_pppData[bands][j][k]]++;//历遍数组并统计频率
             }
         }
-        pt = datasave;
 }
