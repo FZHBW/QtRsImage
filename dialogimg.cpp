@@ -20,7 +20,7 @@ Dialogimg::Dialogimg(RsImage &img0, QWidget *parent) :
         ui->comboBox->addItem("Band"+QString::number(i, 10));
     int b = img0.get_Bands();
     M = new int[b];
-    m = new int[b];
+    m = new int[b]; 
     img0.findMm(M, m);
 
 }
@@ -44,9 +44,10 @@ void Dialogimg::on_pushButton_clicked()
     DrawDiagram0(b);
     //![1]
         QBarSet *set = new QBarSet("Band");
-        for(int i = m[b]; i <=M[b]; i++)
+        for(int i = m[b]; i <M[b]; i++)
         {
             *set<<(pimg0->datasave[i]);
+            pimg0->datasave[i]=0;
         }
     //![1]
 
@@ -78,11 +79,20 @@ void Dialogimg::on_pushButton_clicked()
     //![5]
 
     //![6]
-        QChartView *chartView = new QChartView(chart);
-        chartView->setRenderHint(QPainter::Antialiasing);
+        //QChartView *chartView = new QChartView(chart);
+          //      chartView->setRenderHint(QPainter::Antialiasing);
     //![6]
 
-        QGridLayout *baseLayout = new QGridLayout();
-        baseLayout->addWidget(chartView, 10, 10);
-        ui->widget->setLayout(baseLayout);
+        ui->widget->setChart(chart);
+
+
 }
+
+
+
+
+
+
+
+
+

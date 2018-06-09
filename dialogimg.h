@@ -3,6 +3,16 @@
 
 #include <QDialog>
 #include<rsimage.h>
+#include "dialogimg.h"
+#include "ui_dialogimg.h"
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMainWindow>
+#include <QtCharts/QChartView>
+#include <QtCharts/QBarSeries>
+#include <QtCharts/QBarSet>
+#include <QtCharts/QLegend>
+#include <QtCharts/QBarCategoryAxis>
+QT_CHARTS_USE_NAMESPACE
 
 namespace Ui {
 class Dialogimg;
@@ -25,6 +35,8 @@ private:
     int *M;
     int *m;
     RsImage *pimg0 = NULL;
+    int *dataget;
+
 
 };
 
