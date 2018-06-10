@@ -6,16 +6,17 @@
 #include <vector>
 #include<QTableWidget>
 
-
-
+//Creat&Distruct:
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     ui->actionInfo_I->setEnabled(false);
-    ui->actionIn_I->setEnabled(false);
-    ui->actionOut_O->setEnabled(false);
+    ui->actionZoom_O->setEnabled(false);
+    ui->actionDiaGram_D->setEnabled(false);
+    ui->actionEnhance_E->setEnabled(false);
+    ui->actionSwitch_W->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -23,19 +24,110 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+//SLOT Function
 void MainWindow::on_actionqoiwe_triggered()
 {
     if(openRsimg())
     {
         ui->actionInfo_I->setEnabled(true);
-        ui->actionIn_I->setEnabled(true);
-        ui->actionOut_O->setEnabled(true);
+        ui->actionZoom_O->setEnabled(true);
+        ui->actionDiaGram_D->setEnabled(true);
+        ui->actionEnhance_E->setEnabled(true);
+        ui->actionSwitch_W->setEnabled(true);
+        b = img.get_Bands();
+        a = new double[b]{0};
+        v = new double[b]{0};
+        M = new int[b]{0};
+        m = new int[b]{0};
+
+        img.cacuAverage(a);
+        img.cacuVariance(v,a);
+        img.findMm(M,m);
     }
 }
 
 void MainWindow::on_actionInfo_I_triggered()
 {
     showimginfo();
+}
+
+void MainWindow::on_actionSwitch_W_triggered()
+{
+    DialogImgS *dimg = new DialogImgS(img);
+    if(dimg->exec() == QDialog::Accepted)
+    {
+        dimg->get_bandselct(SR, SG, SB);
+    }
+    Drawimg();
+
+}
+
+void MainWindow::on_actionDiaGram_D_triggered()
+{
+    Dialogimg dimg(img);
+    dimg.exec();
+}
+
+void MainWindow::on_actionZoom_O_triggered()
+{
+    slidermaker("%",1,200);
+}
+
+void MainWindow::on_slider_move_zoomimg(int i)
+{
+    QImage *Zqim = new QImage;
+    *Zqim = qim->scaled(img.get_Samples_4()*i/100, img.get_Lines()*i/100, Qt::KeepAspectRatio);
+    ui->label->resize(img.get_Samples_4()*i/100, img.get_Lines()*i/100);
+    ui->label->setPixmap(QPixmap::fromImage(*Zqim));
+}
+
+void MainWindow::on_actionEnhance_E_triggered()
+{
+
+}
+
+//Motivation Function
+void MainWindow::slidermaker(QString qst,int min, int max)
+{
+    Qd = new QDialog(this);
+    ql = new QSlider(Qt::Horizontal);
+    qp = new QSpinBox;
+    mid = (min+max)/2;
+
+//![setQSlider]
+    ql->setRange(min,max);
+    ql->setTickInterval(5);
+    ql->setTickPosition(QSlider::TicksAbove);
+    ql->setValue(mid);
+    ql->setFixedWidth(260);
+//![setQSlider]
+
+//![setQSpinBox]
+    qp->setRange(min,max);
+    qp->setSuffix(qst);
+    qp->setValue(mid);
+//![setQSpinBox]
+
+//![setLayout]
+    slayout = new QHBoxLayout(Qd);
+    slayout->addStretch();
+    slayout->addWidget(qp);
+    slayout->addWidget(ql);
+    slayout->addStretch();
+//![setLayout]
+
+//![setSignalSlot]
+    connect(qp, SIGNAL(valueChanged(int)), ql, SLOT(setValue(int)));
+    connect(ql, SIGNAL(valueChanged(int)), qp, SLOT(setValue(int)));
+    connect(qp, SIGNAL(valueChanged(int)), this,SLOT(on_slider_move_zoomimg(int)));
+//![setSignalSlot]
+
+//![setQWidget]
+    Qd->setLayout(slayout);
+//![setQWidget]
+
+    Qd->show();
 }
 
 bool MainWindow::showimginfo()
@@ -50,16 +142,7 @@ bool MainWindow::showimginfo()
     else
     {
         qtw = new QTableWidget();
-        int b = img.get_Bands();
-        double a[b]{0};
-        double v[b]{0};
-        int M[b]{0};
-        int m[b]{0};
-        img.cacuAverage(a);
-        img.cacuVariance(v,a);
-        img.findMm(M,m);
-
-        qtw-> setMinimumSize(627, 270);
+        qtw-> setMinimumSize(627, 200);
         qtw-> setMaximumSize(627, 100000);
         qtw->setWindowModality(Qt::ApplicationModal);
 
@@ -119,22 +202,24 @@ void MainWindow::Drawimg()
     ui->label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     ui->label->setScaledContents(true);
 
-    int with = ui->label->width();
-    int height = ui->label->height();
+    ui->label->setBackgroundRole(QPalette::Base);
+    ui->label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    ui->label->setScaledContents(true);
+    ui->label->resize(img.get_Samples_4(),img.get_Lines());
+
+    scrollArea->setBackgroundRole(QPalette::Light);
+    scrollArea->setWidget(ui->label);
+    scrollArea->setVisible(true);
+
+    setCentralWidget(scrollArea);
     QPixmap pixmap = QPixmap::fromImage(*qim);
-    QPixmap fitpixmap = pixmap.scaled(with, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    ui->label->setPixmap(fitpixmap);
+    //QPixmap fitpixmap = pixmap.scaled(with, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->label->setPixmap(pixmap);
 }
 
-void MainWindow::on_actionSwitch_W_triggered()
+void MainWindow::Enhance()
 {
-    DialogImgS *dimg = new DialogImgS(img);
-    if(dimg->exec() == QDialog::Accepted)
-    {
-        dimg->get_bandselct(SR, SG, SB);
-    }
-    Drawimg();
-
+    int n;
 }
 
 
@@ -142,8 +227,5 @@ void MainWindow::on_actionSwitch_W_triggered()
 
 
 
-void MainWindow::on_actionDiaGram_D_triggered()
-{
-    Dialogimg dimg(img);
-    dimg.exec();
-}
+
+

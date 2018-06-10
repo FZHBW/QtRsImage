@@ -19,6 +19,7 @@ class RsImage
     bool open(const char* lpstrPath);
 
 public:
+//Functions:
     RsImage();
     ~RsImage();
     bool qOpen(QString fileName);
@@ -35,6 +36,8 @@ public:
     void cacuVariance(double *pV, double *pA);
     void findMm(int *pM, int *pm);
     void cacudata(int bands);
+
+//Arguments:
     int datasave[256]{0};
 
 
@@ -42,22 +45,26 @@ public:
 
 
 protected:
+
+//Functions:
+    bool ReadMetaData(const char* lpstrMetaFilePath);
+    bool ReadImgData(const char* lpstrImgFilePath);
+    bool InitBuffer(void);
+
+//Arguments:
     int m_nSamples = 0;
     int m_nLines = 0;
     int m_nBands = 0;
     int Samples_4 = 0;
     rsdata m_eInterleave;
     DataType*** m_pppData = NULL;
-    bool ReadMetaData(const char* lpstrMetaFilePath);
-    bool ReadImgData(const char* lpstrImgFilePath);
-    bool InitBuffer(void);
-    string m_nDataType;
-
-
+    string m_nDataType = "";
 
 
 
 public:
+
+
 
 
 };

@@ -1,5 +1,4 @@
 #include "dialogimg.h"
-#include "ui_dialogimg.h"
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include <QtCharts/QChartView>
@@ -7,6 +6,7 @@
 #include <QtCharts/QBarSet>
 #include <QtCharts/QLegend>
 #include <QtCharts/QBarCategoryAxis>
+
 QT_CHARTS_USE_NAMESPACE
 
 
@@ -36,7 +36,6 @@ void Dialogimg::DrawDiagram0(int band)
 {
     pimg0->cacudata(band);
 }
-
 
 void Dialogimg::on_pushButton_clicked()
 {
@@ -80,11 +79,10 @@ void Dialogimg::on_pushButton_clicked()
 
     //![6]
         //QChartView *chartView = new QChartView(chart);
-          //      chartView->setRenderHint(QPainter::Antialiasing);
+        //chartView->setRenderHint(QPainter::Antialiasing);
     //![6]
 
         ui->widget->setChart(chart);
-
 
 }
 

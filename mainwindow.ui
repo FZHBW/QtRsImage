@@ -14,15 +14,19 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>11</x>
+      <y>11</y>
+      <width>781</width>
+      <height>571</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -45,15 +49,9 @@
     <property name="title">
      <string>Operate(O)</string>
     </property>
-    <widget class="QMenu" name="menuZoom">
-     <property name="title">
-      <string>Zoom(Z)</string>
-     </property>
-     <addaction name="actionIn_I"/>
-     <addaction name="actionOut_O"/>
-    </widget>
-    <addaction name="menuZoom"/>
     <addaction name="actionSwitch_W"/>
+    <addaction name="actionEnhance_E"/>
+    <addaction name="actionZoom_O"/>
    </widget>
    <addaction name="menuwenjian"/>
    <addaction name="menuOperate_O"/>
@@ -77,16 +75,6 @@
     <string>Info(I)</string>
    </property>
   </action>
-  <action name="actionIn_I">
-   <property name="text">
-    <string>In(I)</string>
-   </property>
-  </action>
-  <action name="actionOut_O">
-   <property name="text">
-    <string>Out(O)</string>
-   </property>
-  </action>
   <action name="actionSwitch_W">
    <property name="text">
     <string>Switch(W)</string>
@@ -95,6 +83,16 @@
   <action name="actionDiaGram_D">
    <property name="text">
     <string>DiaGram(D)</string>
+   </property>
+  </action>
+  <action name="actionEnhance_E">
+   <property name="text">
+    <string>Enhance(E)</string>
+   </property>
+  </action>
+  <action name="actionZoom_O">
+   <property name="text">
+    <string>Zoom(Z)</string>
    </property>
   </action>
  </widget>
