@@ -34,7 +34,7 @@
      <x>0</x>
      <y>0</y>
      <width>908</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuwenjian">
@@ -44,6 +44,7 @@
     <addaction name="actionqoiwe"/>
     <addaction name="actionInfo_I"/>
     <addaction name="actionDiaGram_D"/>
+    <addaction name="actionTransparent_T"/>
    </widget>
    <widget class="QMenu" name="menuOperate_O">
     <property name="title">
@@ -52,6 +53,11 @@
     <addaction name="actionSwitch_W"/>
     <addaction name="actionEnhance_E"/>
     <addaction name="actionZoom_O"/>
+    <addaction name="actionRotate_R"/>
+    <addaction name="actionGFilter_G"/>
+    <addaction name="actionEDFilter_D"/>
+    <addaction name="actionFCFilter_F"/>
+    <addaction name="actionSFilter_S"/>
    </widget>
    <addaction name="menuwenjian"/>
    <addaction name="menuOperate_O"/>
@@ -93,6 +99,36 @@
   <action name="actionZoom_O">
    <property name="text">
     <string>Zoom(Z)</string>
+   </property>
+  </action>
+  <action name="actionRotate_R">
+   <property name="text">
+    <string>Rotate(R)</string>
+   </property>
+  </action>
+  <action name="actionTransparent_T">
+   <property name="text">
+    <string>Transparent(T)</string>
+   </property>
+  </action>
+  <action name="actionGFilter_G">
+   <property name="text">
+    <string>GFilter(G)</string>
+   </property>
+  </action>
+  <action name="actionEDFilter_D">
+   <property name="text">
+    <string>EDFilter(D)</string>
+   </property>
+  </action>
+  <action name="actionFCFilter_F">
+   <property name="text">
+    <string>FCFilter(F)</string>
+   </property>
+  </action>
+  <action name="actionSFilter_S">
+   <property name="text">
+    <string>SFilter(S)</string>
    </property>
   </action>
  </widget>

@@ -6,6 +6,7 @@
 #include <vector>
 #include<QTableWidget>
 
+
 //Creat&Distruct:
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -60,7 +61,6 @@ void MainWindow::on_actionSwitch_W_triggered()
         dimg->get_bandselct(SR, SG, SB);
     }
     Drawimg();
-
 }
 
 void MainWindow::on_actionDiaGram_D_triggered()
@@ -70,8 +70,27 @@ void MainWindow::on_actionDiaGram_D_triggered()
 }
 
 void MainWindow::on_actionZoom_O_triggered()
-{
+{   
     slidermaker("%",1,200);
+    connect(ql, SIGNAL(valueChanged(int)), this,SLOT(on_slider_move_zoomimg(int)));
+}
+
+void MainWindow::on_actionTransparent_T_triggered()
+{
+    slidermaker("%", 0, 100);
+    ql->setValue(100);
+    connect(ql, SIGNAL(valueChanged(int)), this, SLOT(on_slider_move_transparent(int)));
+}
+
+void MainWindow::on_actionEnhance_E_triggered()
+{
+
+}
+
+void MainWindow::on_actionRotate_R_triggered()
+{
+    slidermaker("°",-180,180);
+    connect(ql, SIGNAL(valueChanged(int)), this,SLOT(on_slider_move_rotating(int)));
 }
 
 void MainWindow::on_slider_move_zoomimg(int i)
@@ -82,9 +101,55 @@ void MainWindow::on_slider_move_zoomimg(int i)
     ui->label->setPixmap(QPixmap::fromImage(*Zqim));
 }
 
-void MainWindow::on_actionEnhance_E_triggered()
+void MainWindow::on_slider_move_rotating(int i)
 {
+    QImage* imgRotate = new QImage;
+    QMatrix matrix;
+    matrix.rotate(i);
+    *imgRotate = qim->transformed(matrix);
+    ui->label->resize(imgRotate->size());
+    ui->label->setPixmap(QPixmap::fromImage(*imgRotate));
+}
 
+void MainWindow::on_slider_move_transparent(int i)
+{
+    SA = i*255/100;
+    img.qimMaker( SR, SG, SB, SA, pDataBuffer);
+    qim = new QImage(pDataBuffer,img.get_Samples_4(),img.get_Lines(), QImage::Format_RGBA8888);
+    QPixmap pixmap = QPixmap::fromImage(*qim);
+    ui->label->setPixmap(pixmap);
+}
+
+void MainWindow::on_actionGFilter_G_triggered()
+{
+   img.GFilter();
+   setpDataBuffer();
+   QImage *GFqim = new QImage(pDataBuffer,img.get_Samples_4(),img.get_Lines(), QImage::Format_RGBA8888);
+   setlabel(*GFqim);
+}
+
+void MainWindow::on_actionEDFilter_D_triggered()
+{
+    img.EFilter();
+    setpDataBuffer();
+    QImage *EFqim = new QImage(pDataBuffer,img.get_Samples_4(),img.get_Lines(), QImage::Format_RGBA8888);
+    setlabel(*EFqim);
+}
+
+void MainWindow::on_actionFCFilter_F_triggered()
+{
+    img.FFilter();
+    setpDataBuffer();
+    QImage *FFqim = new QImage(pDataBuffer,img.get_Samples_4(),img.get_Lines(), QImage::Format_RGBA8888);
+    setlabel(*FFqim);
+}
+
+void MainWindow::on_actionSFilter_S_triggered()
+{
+    img.SFilter();
+    setpDataBuffer();
+    QImage *SFqim = new QImage(pDataBuffer,img.get_Samples_4(),img.get_Lines(), QImage::Format_RGBA8888);
+    setlabel(*SFqim);
 }
 
 //Motivation Function
@@ -115,12 +180,14 @@ void MainWindow::slidermaker(QString qst,int min, int max)
     slayout->addWidget(qp);
     slayout->addWidget(ql);
     slayout->addStretch();
+    int i;
 //![setLayout]
 
 //![setSignalSlot]
     connect(qp, SIGNAL(valueChanged(int)), ql, SLOT(setValue(int)));
     connect(ql, SIGNAL(valueChanged(int)), qp, SLOT(setValue(int)));
-    connect(qp, SIGNAL(valueChanged(int)), this,SLOT(on_slider_move_zoomimg(int)));
+
+
 //![setSignalSlot]
 
 //![setQWidget]
@@ -186,6 +253,7 @@ bool MainWindow::openRsimg()
     }
     else
     {
+        pDataBuffer = new DataType [img.get_Lines()*img.get_Samples_4()*4]{0};
         Drawimg();
         return true;
     }
@@ -194,9 +262,9 @@ bool MainWindow::openRsimg()
 
 void MainWindow::Drawimg()
 {
-    pDataBuffer = new DataType [img.get_Lines()*img.get_Samples_4()*3]{0};
-    img.qimMaker( SR, SG, SB,pDataBuffer);
-    qim = new QImage(pDataBuffer,img.get_Samples_4(),img.get_Lines(), QImage::Format_RGB888);
+
+    img.qimMaker( SR, SG, SB, SA, pDataBuffer);
+    qim = new QImage(pDataBuffer,img.get_Samples_4(),img.get_Lines(), QImage::Format_RGBA8888);
     scrollArea = new QScrollArea;
     ui->label->setBackgroundRole(QPalette::Base);
     ui->label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -212,19 +280,36 @@ void MainWindow::Drawimg()
     scrollArea->setVisible(true);
 
     setCentralWidget(scrollArea);
-    QPixmap pixmap = QPixmap::fromImage(*qim);
-    //QPixmap fitpixmap = pixmap.scaled(with, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    setlabel(*qim);
+}
+
+void MainWindow::setlabel(QImage qi)
+{
+    QPixmap pixmap = QPixmap::fromImage(qi);
     ui->label->setPixmap(pixmap);
 }
 
 void MainWindow::Enhance()
 {
-    int n;
+
 }
 
-
-
-
+void MainWindow::setpDataBuffer()
+{
+    int i = 0, k = 0;
+    int line = img.get_Lines();
+    int sam = img. get_Samples();
+   for(int j = 0; j < line; j++)
+   {
+       for(k = 0;  k< sam; k++)
+       {
+           pDataBuffer[i++]=img.m_ppp_operate_Data[SR][j][k];
+           pDataBuffer[i++]=img.m_ppp_operate_Data[SG][j][k];
+           pDataBuffer[i++]=img.m_ppp_operate_Data[SB][j][k];
+           pDataBuffer[i++]=SA;
+        }
+   }
+}
 
 
 

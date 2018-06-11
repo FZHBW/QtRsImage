@@ -11,6 +11,7 @@
 #include<QSlider>
 #include<dialogimgs.h>
 #include<dialogimg.h>
+#include<dialogroll.h>
 
 namespace Ui {
 class MainWindow;
@@ -38,7 +39,23 @@ private slots:
 
     void on_slider_move_zoomimg(int i);
 
+    void on_slider_move_rotating(int i);
+
+    void on_slider_move_transparent(int i);
+
     void on_actionEnhance_E_triggered();
+
+    void on_actionRotate_R_triggered();
+
+    void on_actionTransparent_T_triggered();
+
+    void on_actionGFilter_G_triggered();
+
+    void on_actionEDFilter_D_triggered();
+
+    void on_actionFCFilter_F_triggered();
+
+    void on_actionSFilter_S_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -55,12 +72,14 @@ protected:
     QSpinBox *qp;
     QHBoxLayout *slayout;
     QDialog *Qd;
+    QImage* imgRZ;
 
 
 //Arguments:
     int SR = 0;
     int SG = 1;
     int SB = 2;
+    int SA = 255;
     int zoomv = 1;
     int *M;
     int *m;
@@ -75,6 +94,9 @@ protected:
     void Drawimg();
     void slidermaker(QString, int min, int max);
     void Enhance();
+    void setlabel(QImage qi);
+    void setpDataBuffer();
+    //void Drawimg(DataType *pDataBuffer0, int transp);
 
 
 

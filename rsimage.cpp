@@ -25,6 +25,7 @@ bool RsImage::open(const char* lpstrPath)
         strMetaFilePath = strMetaFilePath.substr(0, pos);
     }
     strMetaFilePath.append(".hdr");//改变后缀使程序找到hdr文件以读取基本数据
+
     if (!ReadMetaData(strMetaFilePath.c_str()))//文件路径不对时给予反馈
     {
         //cerr << "Read Meta Data Failed." << endl;
@@ -54,14 +55,17 @@ bool RsImage::ReadMetaData(const char* lpstrMetaFilePath)//读取准备信息
     string      strLine;
     string      strSubTxt;
     stringstream    ss;
+    char   sBuff[260]{0};
 
-    char        sBuff[260];
 
     ifs.open(lpstrMetaFilePath,ios_base::in);
     if(!ifs.is_open())
     {
        return false;
     }
+
+    ifs >> metadata0;
+
     while (!ifs.eof())   //直到文件结尾才会结束
     {
         ifs.getline(sBuff, 260);//将读取到的内容输入数组中准备读取
@@ -90,14 +94,17 @@ bool RsImage::ReadMetaData(const char* lpstrMetaFilePath)//读取准备信息
             if (strSubTxt == "bsq")
             {
                 m_eInterleave = BSQ;
+                kind_of_metadata = "bsq";
             }
             else if (strSubTxt == "bip")
             {
                 m_eInterleave = BIP;
+                kind_of_metadata = "bip";
             }
             else if (strSubTxt == "bil")
             {
                 m_eInterleave = BIL;
+                kind_of_metadata = "bil";
             }
             else
             {
@@ -138,6 +145,7 @@ bool RsImage::ReadImgData(const char* lpstrImgFilePath)
                 for (j = 0; j<m_nLines && !ifs.eof(); j++)
                 {
                     ifs.read((char*)m_pppData[i][j], sizeof(DataType)*m_nSamples);
+
                     //按波段读取，这种读取方式速度较快，可以直接一行一行的读取极大的提高的写入
                     //内存和提取的速度。
                 }
@@ -152,6 +160,7 @@ bool RsImage::ReadImgData(const char* lpstrImgFilePath)
                 for (j = 0; j<m_nBands && !ifs.eof(); j++)
                 {
                     ifs.read((char*)m_pppData[j][i], sizeof(DataType)*m_nSamples);
+
                 }
             }
             // 数据不完整
@@ -189,22 +198,31 @@ bool RsImage::InitBuffer(void)
     int     i, j;
 
     m_pppData = new DataType**[m_nBands];
-    if (m_pppData == NULL)  return false;//判断指针是否指向有效的地址
+    m_ppp_operate_Data = new DataType**[m_nBands];
+    if (m_pppData == NULL || m_ppp_operate_Data == NULL)  return false;//判断指针是否指向有效的地址
 
     for (i = 0; i<m_nBands; i++)//给指针指向对象赋初值0
+    {
         m_pppData[i] = 0UL;
+        m_ppp_operate_Data[i] = 0UL;
+    }
 
     for (i = 0; i<m_nBands; ++i)
     {
         m_pppData[i] = new DataType*[m_nLines];
-        if (m_pppData[i] == NULL)   return false;
+        m_ppp_operate_Data[i] = new DataType*[m_nLines];
+        if (m_pppData[i] == NULL || m_ppp_operate_Data[i] == NULL)   return false;
 
         for (j = 0; j<m_nLines; ++j)//创建二级指针
+        {
             m_pppData[i][j] = 0UL;
+            m_ppp_operate_Data[i][j] = 0UL;
+        }
 
         for (j = 0; j<m_nLines; ++j)
         {
             m_pppData[i][j] = new DataType[m_nSamples];//创建数组储存空间
+            m_ppp_operate_Data[i][j] = new DataType[m_nSamples];
         }
     }
 
@@ -214,7 +232,6 @@ bool RsImage::InitBuffer(void)
 bool RsImage::qOpen(QString fileName)
 {
     string filepath;
-
     filepath = fileName.toStdString();
     if(open(filepath.c_str()))
         return true;
@@ -222,7 +239,7 @@ bool RsImage::qOpen(QString fileName)
         return false;
 }
 
-bool RsImage::qimMaker(int r, int g, int b, DataType *pt)
+bool RsImage::qimMaker(int r, int g, int b, int a, DataType *pt)
 {
      int i = 0, k = 0;
     for(int j = 0; j < m_nLines; j++)
@@ -232,6 +249,7 @@ bool RsImage::qimMaker(int r, int g, int b, DataType *pt)
             pt[i++]=m_pppData[r][j][k];
             pt[i++]=m_pppData[g][j][k];
             pt[i++]=m_pppData[b][j][k];
+            pt[i++]=a;
             }
        }
     if(pt != NULL)
@@ -316,8 +334,156 @@ void RsImage::cacudata(int bands)
     }
 }
 
+void RsImage::Saveasmetadata(string meta_filepath,int i)
+{
+    /*int		pos = metadata0.rfind(kind_of_metadata);//找到文件名的后缀
+    ofstream ofmeta;
+    ofmeta.open(meta_filepath.c_str(), ios::binary);
+    switch (i)
+    {
+    case 0:
+        kind_of_metadata = "bsq";
+        break;
 
+    case 1:
+        kind_of_metadata = "bip";
+        break;
 
+    case 2:
+        kind_of_metadata = "bil";
+        break;
 
+    default:
+        break;
 
+    }
+    if (pos >= 0)
+    {
+        metadata0.replace(pos, pos+3, kind_of_metadata);
+    }
+    ofmeta.write(metadata0,metadata0.rfind("}"));
+    ofmeta.close();*/
+    int i = 0;
+    i = 1;
 
+}
+
+void RsImage::GFilter()
+{
+    int core[25]{
+                    1, 4,  7,  4,  1,
+                    4, 16, 26, 16, 4,
+                    7, 26, 41, 26, 7,
+                    1, 4,  7,  4,  1,
+                    4, 16, 26, 16, 4,
+                   };
+    double av = 0;
+
+    for (int i = 0; i < m_nBands; i++)
+        {
+            for (int j = 2; j < m_nLines - 2; j++)
+            {
+                for (int k = 2; k < m_nSamples - 2; k++)
+                {
+                    av = 0;
+                    for (int m = -2; m < 3; m++)
+                    {
+                        for (int n = -2; n < 3; n++)
+                        {
+                            av += ((int)m_pppData[i][j+m][k+n])*core[(m+2)*5+n+2];
+                        }
+                    }
+                    m_ppp_operate_Data[i][j][k] = (DataType)(av/273);
+                }
+            }
+        }
+}
+
+void RsImage::EFilter()
+{
+    int core[9]{
+                    -1, -1, -1,
+                    -1,  8, -1,
+                    -1, -1, -1,
+               };
+    double av = 0;
+
+    for (int i = 0; i < m_nBands; i++)
+        {
+            for (int j = 2; j < m_nLines - 2; j++)
+            {
+                for (int k = 2; k < m_nSamples - 2; k++)
+                {
+                    av = 0;
+                    for (int m = -1; m < 2; m++)
+                    {
+                        for (int n = -1; n < 2; n++)
+                        {
+                            av += ((int)m_pppData[i][j+m][k+n])*core[(m+1)*5+n+1];
+                        }
+                    }
+                    m_ppp_operate_Data[i][j][k] = (DataType)(av);
+                }
+            }
+        }
+}
+
+void RsImage::FFilter()
+{
+    int core[9]{
+                    -1, -1,  0,
+                    -1,  0,  1,
+                     0,  1,  1,
+               };
+    double av = 0;
+
+    for (int i = 0; i < m_nBands; i++)
+        {
+            for (int j = 2; j < m_nLines - 2; j++)
+            {
+                for (int k = 2; k < m_nSamples - 2; k++)
+                {
+                    av = 0;
+                    for (int m = -1; m < 2; m++)
+                    {
+                        for (int n = -1; n < 2; n++)
+                        {
+                            av += ((int)m_pppData[i][j+m][k+n])*core[(m+1)*5+n+1];
+                        }
+                    }
+                    m_ppp_operate_Data[i][j][k] = (DataType)(av+128);
+                }
+            }
+        }
+}
+
+void RsImage::SFilter()
+{
+    int core[25]{
+                    -1, -1, -1, -1, -1,
+                    -1, 2, 2, 2, -1,
+                    -1, 2, 8, 2, -1,
+                    -1, 2,  2,  2,  -1,
+                    -1, -1, -1, -1, -1,
+                   };
+    double av = 0;
+
+    for (int i = 0; i < m_nBands; i++)
+        {
+            for (int j = 2; j < m_nLines - 2; j++)
+            {
+                for (int k = 2; k < m_nSamples - 2; k++)
+                {
+                    av = 0;
+                    for (int m = -2; m < 3; m++)
+                    {
+                        for (int n = -2; n < 3; n++)
+                        {
+                            av += ((int)m_pppData[i][j+m][k+n])*core[(m+2)*5+n+2];
+                        }
+                    }
+                    m_ppp_operate_Data[i][j][k] = (DataType)(av);
+                }
+            }
+        }
+}

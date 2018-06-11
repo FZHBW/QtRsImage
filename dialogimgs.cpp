@@ -10,7 +10,7 @@ DialogImgS::DialogImgS(RsImage &img0, QWidget *parent) :
 
 //![1]
     int b = img0.get_Bands();
-    for(int i = 0; i<=b; i++)
+    for(int i = 0; i<b; i++)
     {
       ui->comboBox->addItem("Band"+QString::number(i, 10));
       ui->comboBox_2->addItem("Band"+QString::number(i, 10));
@@ -32,9 +32,6 @@ bool DialogImgS::get_bandselct(int &r, int &g, int &b)
     b = ui->comboBox_3->currentIndex();
     return true;
 }
-
-
-
 
 void DialogImgS::on_buttonBox_accepted()
 {

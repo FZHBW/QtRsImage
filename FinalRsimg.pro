@@ -29,18 +29,21 @@ SOURCES += \
         mainwindow.cpp \
     rsimage.cpp \
     dialogimg.cpp \
-    dialogimgs.cpp
+    dialogimgs.cpp \
+    dialogroll.cpp
 
 HEADERS += \
         mainwindow.h \
     rsimage.h \
     dialogimg.h \
-    dialogimgs.h
+    dialogimgs.h \
+    dialogroll.h
 
 FORMS += \
         mainwindow.ui \
     dialogimg.ui \
-    dialogimgs.ui
+    dialogimgs.ui \
+    dialogroll.ui
 
 target.path = $$[QT_INSTALL_EXAMPLES]/charts/barchart
 INSTALLS += target

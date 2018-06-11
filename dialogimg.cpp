@@ -42,7 +42,7 @@ void Dialogimg::on_pushButton_clicked()
     int b = ui->comboBox->currentIndex();
     DrawDiagram0(b);
     //![1]
-        QBarSet *set = new QBarSet("Band");
+        QBarSet *set = new QBarSet("Amount");
         for(int i = m[b]; i <M[b]; i++)
         {
             *set<<(pimg0->datasave[i]);
@@ -67,7 +67,7 @@ void Dialogimg::on_pushButton_clicked()
         //QStringList categories;
         QBarCategoryAxis *axis = new QBarCategoryAxis();
         axis->setGridLineVisible(false);
-        axis->setLabelsVisible(false);
+       // axis->setLabelsVisible(false);
         chart->createDefaultAxes();
         chart->setAxisX(axis, series);
     //![4]
