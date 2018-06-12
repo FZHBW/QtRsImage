@@ -7,6 +7,7 @@
 #include<QTableWidget>
 
 
+
 //Creat&Distruct:
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -26,11 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionEDFilter_D->setEnabled(false);
     ui->actionSFilter_S->setEnabled(false);
     ui->actionTransparent_T->setEnabled(false);
-    setMouseTracking(true);
-
 
 }
-
 MainWindow::~MainWindow()
 { 
     delete ui;
@@ -55,6 +53,7 @@ void MainWindow::on_actionqoiwe_triggered()
         ui->actionSFilter_S->setEnabled(true);
         ui->actionTransparent_T->setEnabled(true);
         b = img.get_Bands();
+        movepdata = img.get_m_pppData();
         a = new double[b]{0};
         v = new double[b]{0};
         M = new int[b]{0};
@@ -63,6 +62,10 @@ void MainWindow::on_actionqoiwe_triggered()
         img.cacuAverage(a);
         img.cacuVariance(v,a);
         img.findMm(M,m);
+
+        ui->centralWidget->setMouseTracking(true);
+        this->setMouseTracking(true);
+
     }
 }
 
@@ -337,6 +340,8 @@ void MainWindow::Drawimg()
     scrollArea->setBackgroundRole(QPalette::Light);
     scrollArea->setWidget(ui->label);
     scrollArea->setVisible(true);
+    scrollArea->setMouseTracking(true);
+    //ui->label->setMouseTracking(true);
 
     setCentralWidget(scrollArea);
     setlabel(*qim);
@@ -370,5 +375,17 @@ void MainWindow::setpDataBuffer()
    }
 }
 
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    QString info("%1, %2, %3");
+    if(event->pos().x() < img.get_Samples_4() && event->pos().y() < img.get_Lines())
+    {
+        info = info.arg(movepdata[SR][event->pos().y()][event->pos().x()])
+                .arg(movepdata[SG][event->pos().y()][event->pos().x()])
+                .arg(movepdata[SB][event->pos().y()][event->pos().x()]);
+        QToolTip::showText(mapToGlobal(event->pos()),info);
+    }
 
+
+}
 

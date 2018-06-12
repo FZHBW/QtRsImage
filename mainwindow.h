@@ -11,6 +11,8 @@
 #include<QSlider>
 #include<dialogimgs.h>
 #include<dialogimg.h>
+#include<QToolTip>
+#include<QMouseEvent>
 
 
 namespace Ui {
@@ -80,6 +82,7 @@ protected:
     QComboBox *cb1,*cb2;
 
 
+
 //Arguments:
     int SR = 0;
     int SG = 1;
@@ -92,6 +95,7 @@ protected:
     double *v;
     int mid;
     int b = 0;
+    DataType ***movepdata;
 
 //Functions
     bool showimginfo();
@@ -101,8 +105,7 @@ protected:
     void Enhance();
     void setlabel(QImage qi);
     void setpDataBuffer();
-    //void Drawimg(DataType *pDataBuffer0, int transp);
-
+    void mouseMoveEvent(QMouseEvent *);
 
 
 };

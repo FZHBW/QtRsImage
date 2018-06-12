@@ -32,7 +32,7 @@ public:
         Samples_4 = (m_nSamples*8+31)/32*4;
         return Samples_4;
     }
-    DataType*** get_m_pppData()const {return m_pppData;}
+    DataType *** get_m_pppData() const {return m_pppData;}
     void cacuAverage(double *p);
     void cacuVariance(double *pV, double *pA);
     void findMm(int *pM, int *pm);
