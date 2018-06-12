@@ -69,7 +69,6 @@ protected:
     string m_nDataType = "";
     string metadata0;
     string kind_of_metadata;
-    void Saveasmetadata(string meta_filepath,int i);
 
 
 

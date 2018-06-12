@@ -11,7 +11,7 @@
 #include<QSlider>
 #include<dialogimgs.h>
 #include<dialogimg.h>
-#include<dialogroll.h>
+
 
 namespace Ui {
 class MainWindow;
@@ -43,6 +43,8 @@ private slots:
 
     void on_slider_move_transparent(int i);
 
+    void on_slider_move_scroll(int i);
+
     void on_actionEnhance_E_triggered();
 
     void on_actionRotate_R_triggered();
@@ -56,6 +58,8 @@ private slots:
     void on_actionFCFilter_F_triggered();
 
     void on_actionSFilter_S_triggered();
+
+    void on_actionScroll_L_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -73,6 +77,7 @@ protected:
     QHBoxLayout *slayout;
     QDialog *Qd;
     QImage* imgRZ;
+    QComboBox *cb1,*cb2;
 
 
 //Arguments:

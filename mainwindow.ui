@@ -34,7 +34,7 @@
      <x>0</x>
      <y>0</y>
      <width>908</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuwenjian">
@@ -58,17 +58,10 @@
     <addaction name="actionEDFilter_D"/>
     <addaction name="actionFCFilter_F"/>
     <addaction name="actionSFilter_S"/>
+    <addaction name="actionScroll_L"/>
    </widget>
    <addaction name="menuwenjian"/>
    <addaction name="menuOperate_O"/>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionqoiwe">
@@ -129,6 +122,11 @@
   <action name="actionSFilter_S">
    <property name="text">
     <string>SFilter(S)</string>
+   </property>
+  </action>
+  <action name="actionScroll_L">
+   <property name="text">
+    <string>Scroll(L)</string>
    </property>
   </action>
  </widget>

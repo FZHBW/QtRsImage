@@ -334,8 +334,8 @@ void RsImage::cacudata(int bands)
     }
 }
 
-void RsImage::Saveasmetadata(string meta_filepath,int i)
-{
+//void RsImage::Saveasmetadata(string meta_filepath,int i)
+//{
     /*int		pos = metadata0.rfind(kind_of_metadata);//找到文件名的后缀
     ofstream ofmeta;
     ofmeta.open(meta_filepath.c_str(), ios::binary);
@@ -363,10 +363,10 @@ void RsImage::Saveasmetadata(string meta_filepath,int i)
     }
     ofmeta.write(metadata0,metadata0.rfind("}"));
     ofmeta.close();*/
-    int i = 0;
-    i = 1;
+    //int i = 0;
+    //i = 1;
 
-}
+//}
 
 void RsImage::GFilter()
 {
@@ -402,35 +402,6 @@ void RsImage::GFilter()
 void RsImage::EFilter()
 {
     int core[9]{
-                    -1, -1, -1,
-                    -1,  8, -1,
-                    -1, -1, -1,
-               };
-    double av = 0;
-
-    for (int i = 0; i < m_nBands; i++)
-        {
-            for (int j = 2; j < m_nLines - 2; j++)
-            {
-                for (int k = 2; k < m_nSamples - 2; k++)
-                {
-                    av = 0;
-                    for (int m = -1; m < 2; m++)
-                    {
-                        for (int n = -1; n < 2; n++)
-                        {
-                            av += ((int)m_pppData[i][j+m][k+n])*core[(m+1)*5+n+1];
-                        }
-                    }
-                    m_ppp_operate_Data[i][j][k] = (DataType)(av);
-                }
-            }
-        }
-}
-
-void RsImage::FFilter()
-{
-    int core[9]{
                     -1, -1,  0,
                     -1,  0,  1,
                      0,  1,  1,
@@ -448,10 +419,39 @@ void RsImage::FFilter()
                     {
                         for (int n = -1; n < 2; n++)
                         {
-                            av += ((int)m_pppData[i][j+m][k+n])*core[(m+1)*5+n+1];
+                            av += ((int)m_pppData[i][j+m][k+n])*core[(m+1)*3+n+1];
                         }
                     }
-                    m_ppp_operate_Data[i][j][k] = (DataType)(av+128);
+                    m_ppp_operate_Data[i][j][k] = (DataType)(av);
+                }
+            }
+        }
+}
+
+void RsImage::FFilter()
+{
+    int core[9]{
+        -1, -1, -1,
+        -1,  8, -1,
+        -1, -1, -1,
+               };
+    double av = 0;
+
+    for (int i = 0; i < m_nBands; i++)
+        {
+            for (int j = 2; j < m_nLines - 2; j++)
+            {
+                for (int k = 2; k < m_nSamples - 2; k++)
+                {
+                    av = 0;
+                    for (int m = -1; m < 2; m++)
+                    {
+                        for (int n = -1; n < 2; n++)
+                        {
+                            av += ((int)m_pppData[i][j+m][k+n])*core[(m+1)*3+n+1];
+                        }
+                    }
+                    m_ppp_operate_Data[i][j][k] = (DataType)(av);
                 }
             }
         }
@@ -482,7 +482,7 @@ void RsImage::SFilter()
                             av += ((int)m_pppData[i][j+m][k+n])*core[(m+2)*5+n+2];
                         }
                     }
-                    m_ppp_operate_Data[i][j][k] = (DataType)(av);
+                    m_ppp_operate_Data[i][j][k] = (DataType)(av );
                 }
             }
         }

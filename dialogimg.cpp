@@ -16,7 +16,7 @@ Dialogimg::Dialogimg(RsImage &img0, QWidget *parent) :
 {
     ui->setupUi(this);
     pimg0 = &img0;
-    for(int i = 0; i<img0.get_Bands(); i++)
+    for(int i = 1; i<=img0.get_Bands(); i++)
         ui->comboBox->addItem("Band"+QString::number(i, 10));
     int b = img0.get_Bands();
     M = new int[b];
@@ -66,8 +66,8 @@ void Dialogimg::on_pushButton_clicked()
     //![4]
         //QStringList categories;
         QBarCategoryAxis *axis = new QBarCategoryAxis();
-        axis->setGridLineVisible(false);
-       // axis->setLabelsVisible(false);
+        axis->setGridLineVisible(true);
+        axis->setLabelsVisible(false);
         chart->createDefaultAxes();
         chart->setAxisX(axis, series);
     //![4]

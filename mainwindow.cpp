@@ -18,6 +18,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionDiaGram_D->setEnabled(false);
     ui->actionEnhance_E->setEnabled(false);
     ui->actionSwitch_W->setEnabled(false);
+
+    ui->actionFCFilter_F->setEnabled(false);
+    ui->actionGFilter_G->setEnabled(false);
+    ui->actionRotate_R->setEnabled(false);
+    ui->actionScroll_L->setEnabled(false);
+    ui->actionEDFilter_D->setEnabled(false);
+    ui->actionSFilter_S->setEnabled(false);
+    ui->actionTransparent_T->setEnabled(false);
+    setMouseTracking(true);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -36,6 +47,13 @@ void MainWindow::on_actionqoiwe_triggered()
         ui->actionDiaGram_D->setEnabled(true);
         ui->actionEnhance_E->setEnabled(true);
         ui->actionSwitch_W->setEnabled(true);
+        ui->actionFCFilter_F->setEnabled(true);
+        ui->actionGFilter_G->setEnabled(true);
+        ui->actionRotate_R->setEnabled(true);
+        ui->actionScroll_L->setEnabled(true);
+        ui->actionEDFilter_D->setEnabled(true);
+        ui->actionSFilter_S->setEnabled(true);
+        ui->actionTransparent_T->setEnabled(true);
         b = img.get_Bands();
         a = new double[b]{0};
         v = new double[b]{0};
@@ -93,6 +111,13 @@ void MainWindow::on_actionRotate_R_triggered()
     connect(ql, SIGNAL(valueChanged(int)), this,SLOT(on_slider_move_rotating(int)));
 }
 
+void MainWindow::on_actionScroll_L_triggered()
+{
+    slidermaker("lines",0, img.get_Lines()-1);
+    ql->setValue(0);
+    connect(ql, SIGNAL(valueChanged(int)), this,SLOT(on_slider_move_scroll(int)));
+}
+
 void MainWindow::on_slider_move_zoomimg(int i)
 {
     QImage *Zqim = new QImage;
@@ -115,6 +140,38 @@ void MainWindow::on_slider_move_transparent(int i)
 {
     SA = i*255/100;
     img.qimMaker( SR, SG, SB, SA, pDataBuffer);
+    qim = new QImage(pDataBuffer,img.get_Samples_4(),img.get_Lines(), QImage::Format_RGBA8888);
+    QPixmap pixmap = QPixmap::fromImage(*qim);
+    ui->label->setPixmap(pixmap);
+
+}
+
+void MainWindow::on_slider_move_scroll(int m)
+{
+   int i = 0;
+   DataType ***sham_pppdata;
+   sham_pppdata = img.get_m_pppData();
+   for(int j = 0; j <= m; j++)
+   {
+       for(int k = 0;  k<img.get_Samples_4(); k++)
+       {
+           pDataBuffer[i++]=sham_pppdata[SR][j][k];
+           pDataBuffer[i++]=sham_pppdata[SG][j][k];
+           pDataBuffer[i++]=sham_pppdata[SB][j][k];
+           pDataBuffer[i++]=0;
+           }
+      }
+   for(int j = m+1; j < img.get_Lines(); j++)
+   {
+       for(int k = 0;  k<img.get_Samples_4(); k++)
+       {
+           pDataBuffer[i++]=sham_pppdata[SR][j][k];
+           pDataBuffer[i++]=sham_pppdata[SG][j][k];
+           pDataBuffer[i++]=sham_pppdata[SB][j][k];
+           pDataBuffer[i++]=255;
+        }
+   }
+
     qim = new QImage(pDataBuffer,img.get_Samples_4(),img.get_Lines(), QImage::Format_RGBA8888);
     QPixmap pixmap = QPixmap::fromImage(*qim);
     ui->label->setPixmap(pixmap);
@@ -151,6 +208,8 @@ void MainWindow::on_actionSFilter_S_triggered()
     QImage *SFqim = new QImage(pDataBuffer,img.get_Samples_4(),img.get_Lines(), QImage::Format_RGBA8888);
     setlabel(*SFqim);
 }
+
+
 
 //Motivation Function
 void MainWindow::slidermaker(QString qst,int min, int max)
@@ -310,7 +369,6 @@ void MainWindow::setpDataBuffer()
         }
    }
 }
-
 
 
 
