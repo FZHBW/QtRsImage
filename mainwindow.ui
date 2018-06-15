@@ -50,8 +50,14 @@
     <property name="title">
      <string>Operate(O)</string>
     </property>
+    <widget class="QMenu" name="menuShowRGB">
+     <property name="title">
+      <string>ShowRGB</string>
+     </property>
+     <addaction name="actionOnTime"/>
+     <addaction name="actionWhenHold"/>
+    </widget>
     <addaction name="actionSwitch_W"/>
-    <addaction name="actionEnhance_E"/>
     <addaction name="actionZoom_O"/>
     <addaction name="actionRotate_R"/>
     <addaction name="actionGFilter_G"/>
@@ -59,6 +65,7 @@
     <addaction name="actionFCFilter_F"/>
     <addaction name="actionSFilter_S"/>
     <addaction name="actionScroll_L"/>
+    <addaction name="menuShowRGB"/>
    </widget>
    <addaction name="menuwenjian"/>
    <addaction name="menuOperate_O"/>
@@ -127,6 +134,22 @@
   <action name="actionScroll_L">
    <property name="text">
     <string>Scroll(L)</string>
+   </property>
+  </action>
+  <action name="actionOnTime">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>OnTime</string>
+   </property>
+  </action>
+  <action name="actionWhenHold">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>WhenHold</string>
    </property>
   </action>
  </widget>

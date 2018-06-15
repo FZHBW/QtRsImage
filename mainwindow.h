@@ -63,6 +63,10 @@ private slots:
 
     void on_actionScroll_L_triggered();
 
+    void on_actionOnTime_triggered();
+
+    void on_actionWhenHold_triggered();
+
 private:
     Ui::MainWindow *ui;
 

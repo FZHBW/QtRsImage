@@ -334,40 +334,6 @@ void RsImage::cacudata(int bands)
     }
 }
 
-//void RsImage::Saveasmetadata(string meta_filepath,int i)
-//{
-    /*int		pos = metadata0.rfind(kind_of_metadata);//找到文件名的后缀
-    ofstream ofmeta;
-    ofmeta.open(meta_filepath.c_str(), ios::binary);
-    switch (i)
-    {
-    case 0:
-        kind_of_metadata = "bsq";
-        break;
-
-    case 1:
-        kind_of_metadata = "bip";
-        break;
-
-    case 2:
-        kind_of_metadata = "bil";
-        break;
-
-    default:
-        break;
-
-    }
-    if (pos >= 0)
-    {
-        metadata0.replace(pos, pos+3, kind_of_metadata);
-    }
-    ofmeta.write(metadata0,metadata0.rfind("}"));
-    ofmeta.close();*/
-    //int i = 0;
-    //i = 1;
-
-//}
-
 void RsImage::GFilter()
 {
     int core[25]{
@@ -431,9 +397,9 @@ void RsImage::EFilter()
 void RsImage::FFilter()
 {
     int core[9]{
-        -1, -1, -1,
-        -1,  8, -1,
-        -1, -1, -1,
+        2, 0, 0,
+        0, -1, 0,
+        0, 0, -1,
                };
     double av = 0;
 
@@ -451,7 +417,7 @@ void RsImage::FFilter()
                             av += ((int)m_pppData[i][j+m][k+n])*core[(m+1)*3+n+1];
                         }
                     }
-                    m_ppp_operate_Data[i][j][k] = (DataType)(av);
+                    m_ppp_operate_Data[i][j][k] = (DataType)(av+125);
                 }
             }
         }
@@ -459,30 +425,28 @@ void RsImage::FFilter()
 
 void RsImage::SFilter()
 {
-    int core[25]{
-                    -1, -1, -1, -1, -1,
-                    -1, 2, 2, 2, -1,
-                    -1, 2, 8, 2, -1,
-                    -1, 2,  2,  2,  -1,
-                    -1, -1, -1, -1, -1,
+    int core[9]{
+                    -1,-1,-1,
+                    -1,9,-1,
+                    -1,-1,- 1
                    };
     double av = 0;
 
     for (int i = 0; i < m_nBands; i++)
         {
-            for (int j = 2; j < m_nLines - 2; j++)
+            for (int j = 1; j < m_nLines - 1; j++)
             {
-                for (int k = 2; k < m_nSamples - 2; k++)
+                for (int k = 1; k < m_nSamples - 1; k++)
                 {
                     av = 0;
-                    for (int m = -2; m < 3; m++)
+                    for (int m = -1; m < 2; m++)
                     {
-                        for (int n = -2; n < 3; n++)
+                        for (int n = -1; n < 2; n++)
                         {
-                            av += ((int)m_pppData[i][j+m][k+n])*core[(m+2)*5+n+2];
+                            av += ((int)m_pppData[i][j+m][k+n])*core[(m+1)*3+n+1];
                         }
                     }
-                    m_ppp_operate_Data[i][j][k] = (DataType)(av );
+                    m_ppp_operate_Data[i][j][k] = (DataType)(av);
                 }
             }
         }

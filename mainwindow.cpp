@@ -27,8 +27,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionEDFilter_D->setEnabled(false);
     ui->actionSFilter_S->setEnabled(false);
     ui->actionTransparent_T->setEnabled(false);
+    ui->menuShowRGB->setEnabled(false);
 
 }
+
+
 MainWindow::~MainWindow()
 { 
     delete ui;
@@ -52,6 +55,8 @@ void MainWindow::on_actionqoiwe_triggered()
         ui->actionEDFilter_D->setEnabled(true);
         ui->actionSFilter_S->setEnabled(true);
         ui->actionTransparent_T->setEnabled(true);
+        ui->menuShowRGB->setEnabled(true);
+        ui->actionWhenHold->setChecked(true);
         b = img.get_Bands();
         movepdata = img.get_m_pppData();
         a = new double[b]{0};
@@ -65,6 +70,7 @@ void MainWindow::on_actionqoiwe_triggered()
 
         ui->centralWidget->setMouseTracking(true);
         this->setMouseTracking(true);
+        ui->actionWhenHold->setChecked(true);
 
     }
 }
@@ -212,6 +218,17 @@ void MainWindow::on_actionSFilter_S_triggered()
     setlabel(*SFqim);
 }
 
+void MainWindow::on_actionOnTime_triggered()
+{
+    ui->actionWhenHold->setChecked(false);
+    ui->label->setMouseTracking(true);
+}
+
+void MainWindow::on_actionWhenHold_triggered()
+{
+    ui->actionOnTime->setChecked(false);
+    ui->label->setMouseTracking(false);
+}
 
 
 //Motivation Function
@@ -355,7 +372,7 @@ void MainWindow::setlabel(QImage qi)
 
 void MainWindow::Enhance()
 {
-
+    //void
 }
 
 void MainWindow::setpDataBuffer()
@@ -378,7 +395,11 @@ void MainWindow::setpDataBuffer()
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
     QString info("%1, %2, %3");
-    if(event->pos().x() < img.get_Samples_4() && event->pos().y() < img.get_Lines())
+    if(event->pos().x() < img.get_Samples_4() &&
+       event->pos().y() < img.get_Lines() &&
+       event->pos().y() >= 0 &&
+       event->pos().x() >= 0
+            )
     {
         info = info.arg(movepdata[SR][event->pos().y()][event->pos().x()])
                 .arg(movepdata[SG][event->pos().y()][event->pos().x()])

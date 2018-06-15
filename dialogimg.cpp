@@ -61,6 +61,7 @@ void Dialogimg::on_pushButton_clicked()
         chart->addSeries(series);
         chart->setTitle("Band"+QString::number(b,10));
         chart->setAnimationOptions(QChart::SeriesAnimations);
+        chart->legend()->setVisible(false);
     //![3]
 
     //![4]
